@@ -1,0 +1,24 @@
+{
+  "name": "blog-silnik",
+  "version": "0.0.0",
+  "description": "Wspólny silnik statycznych blogów na Astro: wpisy MDX z filmem, rozdziały, SEO, sitemap i RSS.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukaszkukawski/blog-silnik.git"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "files": [
+    "src",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./src/integration.mjs"
+  },
+  "scripts": {}
+}
