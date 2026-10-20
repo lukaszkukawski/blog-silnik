@@ -1,0 +1,18 @@
+---
+import config from 'virtual:blog-silnik/config';
+import Layout from '../layouts/Layout.astro';
+import PostList from '../components/PostList.astro';
+import CategoryLinks from '../components/CategoryLinks.astro';
+import { getPublishedPosts } from '../lib/posts.ts';
+
+const posts = await getPublishedPosts();
+const ids = Object.keys(config.categories);
+---
+<Layout title="Wszystkie wpisy">
+	<div class="wrap page">
+		<p class="eyebrow">{config.name}</p>
+		<h1>Wszystkie wpisy</h1>
+		<CategoryLinks selected={ids} />
+		{posts.length ? <PostList posts={posts} /> : <p class="empty">Nie ma jeszcze żadnych wpisów.</p>}
+	</div>
+</Layout>

@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+	title: string;
+	youtubeId?: string;
+	cover?: ImageMetadata;
+	coverAlt?: string;
+}
+const { title, youtubeId, cover, coverAlt = '' } = Astro.props;
+---
+<div class="video" data-video data-id={youtubeId} data-title={title}>
+	{youtubeId ? (
+		<div class="video-frame" data-frame>
+			{cover && <Image src={cover} alt={coverAlt} widths={[640, 960, 1280]} sizes="(min-width: 70rem) 46rem, 94vw" loading="eager" />}
+			<a class="video-play" href={`https://www.youtube.com/watch?v=${youtubeId}`} rel="noopener" aria-label={`Odtwórz film: ${title}`}><span aria-hidden="true">▶</span></a>
+		</div>
+	) : (
+		<div class="video-frame video-soon">
+			{cover && <Image src={cover} alt={coverAlt} widths={[640, 960, 1280]} sizes="(min-width: 70rem) 46rem, 94vw" loading="eager" />}
+			<p class="soon-badge">Premiera wkrótce · pełna wersja tekstowa jest poniżej</p>
+		</div>
+	)}
+</div>
+
+<script>
+	// Odtwarzacz youtube-nocookie ładuje się dopiero po kliknięciu (do tego czasu strona nie łączy się z YouTube).
+	const box = document.querySelector<HTMLElement>('[data-video][data-id]');
+	if (box) {
+		const frame = box.querySelector<HTMLElement>('[data-frame]')!;
+		const load = (start: number) => {
+			const iframe = document.createElement('iframe');
+			const params = new URLSearchParams({ autoplay: '1', rel: '0', start: String(start) });
+			iframe.src = `https://www.youtube-nocookie.com/embed/${box.dataset.id}?${params}`;
+			iframe.title = box.dataset.title ?? 'Film';
+			iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+			iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+			iframe.allowFullscreen = true;
+			frame.replaceChildren(iframe);
+		};
+		box.querySelector('.video-play')?.addEventListener('click', (event) => { event.preventDefault(); load(0); });
+		document.querySelectorAll<HTMLElement>('[data-chapter-at]').forEach((link) => link.addEventListener('click', (event) => {
+			event.preventDefault();
+			load(Number(link.dataset.chapterAt));
+			const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			box.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' });
+		}));
+	}
+</script>

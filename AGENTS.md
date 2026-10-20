@@ -10,10 +10,12 @@
 
 ## Układ
 
-- `src/`: integracja Astro, komponenty, reguły wpisów, style (faza 2).
-- `tests/`: testy jednostkowe i przykładowa witryna w `tests/fixtures/` (faza 2).
-- `scripts/verify.mjs`: testy, build przykładowej witryny, kontrola treści (faza 2).
+- `src/integration.mjs`: integracja Astro (MDX, sitemap, trasy, moduły wirtualne). `src/config.mjs`: walidacja konfiguracji bloga.
+- `src/content.ts`: `definePosts` (kolekcja wpisów). `src/lib/`: reguły wpisów, rozdziały, wtyczki markdown.
+- `src/components/`, `src/layouts/`, `src/pages/`, `src/styles/core.css`: wygląd i trasy.
+- `tests/`: testy jednostkowe (`*.test.mjs`), testy buildu (`build.integration.mjs`) i przykładowa witryna `tests/fixtures/site/`.
+- `scripts/cli.mjs`: `blog-silnik verify` (blog) i `verify-engine` (silnik).
 
 ## Wydania
 
-Wersje to tagi `vX.Y.Z`. Blogi przypinają wersję w `package.json`. Przed tagiem uruchom `npm run verify`.
+Wersje to tagi `vX.Y.Z`. Blogi przypinają wersję w `package.json`. Przed tagiem uruchom `npm run verify`. Pliki `.ts` w `src/` czyta Vite (nie Node), a pliki ładowane przez `astro.config.mjs` muszą być czystym JavaScriptem (`.mjs`).

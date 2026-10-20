@@ -1,6 +1,6 @@
 {
   "name": "blog-silnik",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Wspólny silnik statycznych blogów na Astro: wpisy MDX z filmem, rozdziały, SEO, sitemap i RSS.",
   "type": "module",
   "license": "MIT",
@@ -18,7 +18,41 @@
     "LICENSE"
   ],
   "exports": {
-    ".": "./src/integration.mjs"
+    ".": "./src/integration.mjs",
+    "./content": "./src/content.ts",
+    "./posts": "./src/lib/posts.ts",
+    "./rules": "./src/lib/post-rules.ts",
+    "./video": "./src/lib/video.ts",
+    "./components/*": "./src/components/*",
+    "./layouts/*": "./src/layouts/*",
+    "./styles/*": "./src/styles/*",
+    "./package.json": "./package.json",
+    "./pages/*": "./src/pages/*"
   },
-  "scripts": {}
+  "scripts": {
+    "test:unit": "node --test tests/*.test.mjs",
+    "test:build": "node --test tests/*.integration.mjs",
+    "verify": "node scripts/cli.mjs verify-engine"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/mdx": "^8.0.3",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4"
+  },
+  "peerDependencies": {
+    "astro": "^7.3.0"
+  },
+  "devDependencies": {
+    "astro": "^7.3.8"
+  },
+  "bin": {
+    "blog-silnik": "./scripts/cli.mjs"
+  },
+  "keywords": [
+    "astro-integration",
+    "astro-component",
+    "withastro",
+    "blog"
+  ]
 }

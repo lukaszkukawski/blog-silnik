@@ -1,0 +1,11 @@
+---
+import config from 'virtual:blog-silnik/config';
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Nie ma takiej strony">
+	<div class="wrap page">
+		<p class="eyebrow">404</p>
+		<h1>Nie ma takiej strony</h1>
+		<p>Adres mógł się zmienić albo jest w nim literówka. <a href={config.listPage ? `/${config.postsPath}/` : '/'}>Zobacz wszystkie wpisy</a> albo <a href="/">wróć na stronę główną</a>.</p>
+	</div>
+</Layout>

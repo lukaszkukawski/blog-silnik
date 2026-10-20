@@ -1,0 +1,10 @@
+---
+import config from 'virtual:blog-silnik/config';
+
+interface Props { selected?: string[]; current?: string }
+const { selected = [], current } = Astro.props;
+const categories = config.categories as Record<string, string>;
+---
+{selected.length > 0 && <ul class="category-links" aria-label="Kategorie wpisów" role="list">
+	{selected.map((id) => <li><a href={`/kategorie/${id}/`} aria-current={current === id ? 'page' : undefined}>{categories[id]}</a></li>)}
+</ul>}

@@ -1,0 +1,22 @@
+---
+import config from 'virtual:blog-silnik/config';
+
+interface Props { title?: string; description?: string; type?: 'website' | 'article'; image?: string }
+const { title, description = config.description, type = 'website', image } = Astro.props;
+const fullTitle = title ? `${title} | ${config.name}` : config.tagline ? `${config.name} ${config.tagline}` : config.name;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const locale = config.lang.includes('-') ? config.lang.replace('-', '_') : ({ pl: 'pl_PL', en: 'en_US' } as Record<string, string>)[config.lang] ?? config.lang;
+---
+<title>{fullTitle}</title>
+{description && <meta name="description" content={description} />}
+<link rel="canonical" href={canonical} />
+<link rel="alternate" type="application/rss+xml" title={config.name} href="/rss.xml" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<meta property="og:site_name" content={config.name} />
+<meta property="og:title" content={fullTitle} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:type" content={type} />
+<meta property="og:locale" content={locale} />
+<meta property="og:url" content={canonical} />
+{image && <meta property="og:image" content={image} />}
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />

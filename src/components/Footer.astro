@@ -1,0 +1,13 @@
+---
+import config from 'virtual:blog-silnik/config';
+import slots from 'virtual:blog-silnik/slots';
+
+const Extra = (slots as Record<string, any>).footer;
+---
+<footer class="site-footer">
+	<div class="wrap">
+		<a href="/">{config.name}</a>
+		{Extra ? <Extra /> : config.tagline && <span>{config.tagline}</span>}
+		<a href="/rss.xml">RSS</a>
+	</div>
+</footer>

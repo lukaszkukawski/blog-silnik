@@ -1,0 +1,20 @@
+---
+import config from 'virtual:blog-silnik/config';
+import CategoryLinks from './CategoryLinks.astro';
+import { formatDate } from '../lib/format.ts';
+
+interface Props { posts: { data: { slug: string; title: string; description: string; pubDate: string; categories: string[] } }[] }
+const { posts } = Astro.props;
+---
+<ul class="post-list" role="list">
+	{posts.map((post) => (
+		<li>
+			<article class="post-card">
+				<time class="meta" datetime={post.data.pubDate}>{formatDate(post.data.pubDate, config.lang)}</time>
+				<h3><a href={`/${config.postsPath}/${post.data.slug}/`}>{post.data.title}</a></h3>
+				<p>{post.data.description}</p>
+				<CategoryLinks selected={post.data.categories} />
+			</article>
+		</li>
+	))}
+</ul>

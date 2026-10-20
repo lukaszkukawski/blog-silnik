@@ -1,0 +1,31 @@
+---
+import '../styles/core.css';
+import 'virtual:blog-silnik/theme';
+import config from 'virtual:blog-silnik/config';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+	type?: 'website' | 'article';
+	image?: string;
+}
+const { title, description, type = 'website', image } = Astro.props;
+---
+<!doctype html>
+<html lang={config.lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<SEO title={title} description={description} type={type} image={image} />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">Przejdź do treści</a>
+		<Header />
+		<main id="main" tabindex="-1"><slot /></main>
+		<Footer />
+	</body>
+</html>

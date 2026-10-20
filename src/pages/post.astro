@@ -1,0 +1,13 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PostPage from '../components/PostPage.astro';
+import { getPublishedPosts } from '../lib/posts.ts';
+
+export const getStaticPaths = (async () => {
+	const posts = await getPublishedPosts();
+	return posts.map((post) => ({ params: { slug: post.data.slug }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+---
+<PostPage post={post} />

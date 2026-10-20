@@ -1,0 +1,52 @@
+---
+import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import config from 'virtual:blog-silnik/config';
+import components from 'virtual:blog-silnik/components';
+import Layout from '../layouts/Layout.astro';
+import CategoryLinks from './CategoryLinks.astro';
+import VideoPlayer from './VideoPlayer.astro';
+import ChapterList from './ChapterList.astro';
+import { formatDate } from '../lib/format.ts';
+import { planToc } from '../lib/video.ts';
+
+interface Props { post: any }
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const { title, description, pubDate, categories, video, cover, coverAlt, extraToc = [] } = post.data;
+
+const source = post.filePath ?? post.id;
+const toc = video ? planToc(source, headings, video.chapters, extraToc) : [];
+const og = cover ? new URL((await getImage({ src: cover, width: 1200, format: 'jpg' })).src, Astro.site).href : undefined;
+const listUrl = config.listPage ? `/${config.postsPath}/` : '/';
+---
+<Layout title={title} description={description} type="article" image={og}>
+	<div class="progress" data-progress aria-hidden="true"></div>
+	<div class="wrap">
+		<article class:list={['post-grid', { 'has-toc': !!video }]}>
+			<header class="post-head">
+				<time class="eyebrow" datetime={pubDate}>{formatDate(pubDate, config.lang)}{video ? ` · film ${video.duration}` : ''}</time>
+				<h1>{title}</h1>
+				<p class="lead">{description}</p>
+				<CategoryLinks selected={categories} />
+			</header>
+			{video && <VideoPlayer title={title} youtubeId={video.youtubeId} cover={cover} coverAlt={coverAlt} />}
+			{video && <ChapterList items={toc} youtubeId={video.youtubeId} />}
+			<div class="post-prose prose"><Content components={components} /></div>
+			<footer class="post-foot"><a href={listUrl}><span aria-hidden="true">← </span>Wszystkie wpisy</a></footer>
+		</article>
+	</div>
+</Layout>
+
+<script>
+	// Pasek postępu czytania.
+	const bar = document.querySelector<HTMLElement>('[data-progress]');
+	let ticking = false;
+	const update = () => {
+		const h = document.documentElement.scrollHeight - window.innerHeight;
+		bar?.style.setProperty('--p', String(h > 0 ? Math.min(1, window.scrollY / h) : 0));
+		ticking = false;
+	};
+	window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+	update();
+</script>

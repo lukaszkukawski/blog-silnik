@@ -1,0 +1,40 @@
+---
+import { mmss, type TocItem } from '../lib/video.ts';
+
+interface Props { items: TocItem[]; youtubeId?: string; title?: string }
+const { items, youtubeId, title = 'Rozdziały' } = Astro.props;
+---
+<nav class="toc" aria-labelledby="toc-title" data-toc>
+	<h2 id="toc-title">{title}</h2>
+	<ol>
+		{items.map((item) => (
+			<li data-target={item.slug}>
+				{item.time !== null
+					? (youtubeId
+						? <a class="time" data-chapter-at={item.time} href={`https://www.youtube.com/watch?v=${youtubeId}&t=${item.time}s`} rel="noopener" aria-label={`Odtwórz od ${mmss(item.time)}`}>{mmss(item.time)}</a>
+						: <span class="time">{mmss(item.time)}</span>)
+					: <span class="time time-none" title="Tylko we wpisie, nie ma tego w filmie">·</span>}
+				<a class="toc-link" href={`#${item.slug}`}>{item.text}</a>
+			</li>
+		))}
+	</ol>
+</nav>
+
+<script>
+	// Podświetlanie bieżącego rozdziału podczas czytania.
+	const items = new Map<string, HTMLElement>();
+	document.querySelectorAll<HTMLElement>('[data-toc] li[data-target]').forEach((li) => items.set(li.dataset.target!, li));
+	const heads = [...items.keys()].map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+	const setCurrent = (id: string) => items.forEach((li, key) => {
+		const on = key === id;
+		li.classList.toggle('is-current', on);
+		li.querySelector('.toc-link')?.toggleAttribute('aria-current', on);
+	});
+	const spy = () => {
+		let cur = heads[0]?.id;
+		for (const h of heads) if (h.getBoundingClientRect().top <= window.innerHeight * 0.3) cur = h.id;
+		if (cur) setCurrent(cur);
+	};
+	window.addEventListener('scroll', () => requestAnimationFrame(spy), { passive: true });
+	spy();
+</script>

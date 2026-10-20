@@ -5,3 +5,6 @@ dist/
 .playwright-cli/
 npm-debug.log*
 *.local
+tests/fixtures/work-*/
+tests/fixtures/site/dist/
+tests/fixtures/site/.astro/

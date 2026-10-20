@@ -1,0 +1,16 @@
+---
+import config from 'virtual:blog-silnik/config';
+import slots from 'virtual:blog-silnik/slots';
+
+const Logo = (slots as Record<string, any>).logo;
+const path = Astro.url.pathname;
+const current = (href: string) => href === '/' ? path === '/' : path.startsWith(href.replace(/#.*$/, '')) && !href.startsWith('/#');
+---
+<header class="site-header wrap">
+	<a class="brand" href="/" aria-label={`${config.name}, strona główna`}>{Logo ? <Logo /> : config.name}</a>
+	{config.nav.length > 0 && (
+		<nav class="site-nav" aria-label="Główna">
+			{config.nav.map((item: { label: string; href: string }) => <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>)}
+		</nav>
+	)}
+</header>

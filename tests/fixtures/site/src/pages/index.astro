@@ -1,0 +1,13 @@
+---
+import Layout from '../../../../../src/layouts/Layout.astro';
+import PostList from '../../../../../src/components/PostList.astro';
+import { getPublishedPosts } from '../../../../../src/lib/posts.ts';
+
+const posts = await getPublishedPosts();
+---
+<Layout>
+	<div class="wrap page">
+		<h1>Strona główna fixtures</h1>
+		<PostList posts={posts} />
+	</div>
+</Layout>

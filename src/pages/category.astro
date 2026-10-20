@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from 'astro';
+import config from 'virtual:blog-silnik/config';
+import Layout from '../layouts/Layout.astro';
+import PostList from '../components/PostList.astro';
+import CategoryLinks from '../components/CategoryLinks.astro';
+import { getPublishedPosts } from '../lib/posts.ts';
+
+export const getStaticPaths = (async () => {
+	const posts = await getPublishedPosts();
+	return Object.keys(config.categories).map((category) => ({
+		params: { category },
+		props: { category, posts: posts.filter((post) => post.data.categories.includes(category)) },
+	}));
+}) satisfies GetStaticPaths;
+
+const { category, posts } = Astro.props;
+const title = (config.categories as Record<string, string>)[category];
+const ids = Object.keys(config.categories);
+---
+<Layout title={title} description={`Wpisy z kategorii ${title} na blogu ${config.name}.`}>
+	<div class="wrap page">
+		<p class="eyebrow">Kategorie</p>
+		<h1>{title}</h1>
+		<CategoryLinks selected={ids} current={category} />
+		<p class="meta">Liczba wpisów: {posts.length}</p>
+		{posts.length ? <PostList posts={posts} /> : <p class="empty">Nie ma jeszcze wpisów w tej kategorii. Zajrzyj do <a href={config.listPage ? `/${config.postsPath}/` : '/'}>wszystkich wpisów</a>.</p>}
+	</div>
+</Layout>
