@@ -19,7 +19,7 @@ Wspólny silnik statycznych blogów na Astro. Instalują go dwa blogi (bezZwarci
 Silnik jest publiczny i instalowany z GitHuba, w wersji z tagu:
 
 ```
-npm install github:lukaszkukawski/blog-silnik#v0.1.0
+npm install github:lukaszkukawski/blog-silnik#v0.1.2
 ```
 
 Zmiana wersji w blogu to osobny commit i uruchomienie `npm run verify`.
