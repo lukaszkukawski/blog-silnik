@@ -1,0 +1,5 @@
+---
+interface Props { post: { data: { slug: string } } }
+const { post } = Astro.props;
+---
+<p class="po-wpisie">Pod wpisem: {post.data.slug}</p>

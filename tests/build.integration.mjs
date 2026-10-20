@@ -56,6 +56,7 @@ test('przykładowa witryna buduje się: wpisy, kategorie, RSS, sitemap, 404, dod
 	assert.match(w.dist('dodatek/index.html'), /Trasa dodatku/);
 	assert.match(w.dist('wpisy/demo-wideo/index.html'), /class="pozdrowienie"/, 'komponent MDX z dodatku działa bez importu');
 	assert.match(w.dist('index.html'), /logo-test/, 'logo z slotu bloga');
+	assert.match(w.dist('wpisy/demo-wideo/index.html'), /class="po-wpisie">Pod wpisem: demo-wideo/, 'slot afterPost dostaje wpis');
 });
 
 test('wpis z filmem: odtwarzacz, spis z minutami, „tylko we wpisie”, canonical i OG', (t) => {

@@ -39,7 +39,7 @@ export default {
 	categories: { 'pierwsza': 'Pierwsza kategoria' }, // jedyne źródło prawdy o kategoriach
 	extendSchema: ({ z, image }) => ({ numer: z.number().int().optional() }), // pola bloga
 	nav: [{ label: 'Wpisy', href: '/blog/' }],
-	slots: { logo: './src/components/Logo.astro', footer: './src/components/Footer.astro' },
+	slots: { logo: './src/components/Logo.astro', footer: './src/components/Footer.astro', afterPost: './src/components/AfterPost.astro' },
 	theme: './src/styles/theme.css',    // wartości tokenów
 	addons: [{ id: 'pracownia', routes: [{ pattern: '/pracownia', entrypoint: './src/addons/pracownia.astro' }], components: { Lampka: './src/addons/Lampka.astro' } }],
 	listPage: true,                     // lista wpisów pod /<postsPath>/
@@ -71,6 +71,8 @@ export const collections = definePosts(config, import.meta.url);
 ```
 
 Integracja dodaje sama MDX, sitemap, RSS oraz trasy: `/<postsPath>/`, `/<postsPath>/<slug>/`, `/kategorie/<id>/`, `/rss.xml`, `/404`. Strona główna jest zawsze własna: korzystaj z `blog-silnik/layouts/Layout.astro`, `blog-silnik/components/PostList.astro` i `getPublishedPosts()` z `blog-silnik/posts`.
+
+Miejsca (`slots`): `logo` (w nagłówku), `footer` (w stopce) i `afterPost` (pod treścią wpisu, dostaje `post`; np. lista warsztatów powiązanych z wpisem).
 
 ## Wpis
 

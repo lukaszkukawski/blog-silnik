@@ -7,7 +7,7 @@ export default {
 	categories: { 'pierwsza': 'Pierwsza kategoria', 'druga': 'Druga kategoria', 'pusta': 'Pusta kategoria' },
 	extendSchema: ({ z }) => ({ numer: z.number().int().positive().optional() }),
 	nav: [{ label: 'Wpisy', href: '/wpisy/' }, { label: 'Dodatek', href: '/dodatek/' }],
-	slots: { logo: './src/components/Logo.astro' },
+	slots: { logo: './src/components/Logo.astro', afterPost: './src/components/AfterPost.astro' },
 	theme: './src/styles/theme.css',
 	addons: [{
 		id: 'dodatek',

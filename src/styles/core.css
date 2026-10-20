@@ -56,16 +56,17 @@ main:focus { outline: none; }
 
 /* strona wpisu */
 .progress { position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 3px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
-.post-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'video' 'toc' 'prose' 'foot'; padding-block: clamp(36px, 6vw, 72px); }
+.post-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'video' 'toc' 'prose' 'after' 'foot'; padding-block: clamp(36px, 6vw, 72px); }
 .post-head { grid-area: head; border-bottom: 1px solid var(--line); padding-bottom: 28px; margin-bottom: 28px; }
 .post-head h1 { font: clamp(2rem, 5vw, 3.4rem)/1.1 var(--font-head); letter-spacing: -0.035em; margin: 0.4em 0; overflow-wrap: anywhere; }
 .post-head .lead { margin: 0; font-size: 1.2rem; color: var(--muted); }
 .post-prose { grid-area: prose; min-width: 0; }
+.post-after { grid-area: after; min-width: 0; }
 .post-foot { grid-area: foot; margin-top: 3rem; padding-top: 24px; border-top: 1px solid var(--line); }
 .video { grid-area: video; margin: 0 0 2rem; }
 .toc { grid-area: toc; }
 @media (min-width: 70rem) {
-	.post-grid.has-toc { grid-template-columns: minmax(0, 46rem) 17rem; grid-template-areas: 'head toc' 'video toc' 'prose toc' 'foot toc'; column-gap: 56px; align-items: start; justify-content: center; }
+	.post-grid.has-toc { grid-template-columns: minmax(0, 46rem) 17rem; grid-template-areas: 'head toc' 'video toc' 'prose toc' 'after toc' 'foot toc'; column-gap: 56px; align-items: start; justify-content: center; }
 	.post-grid.has-toc .toc { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow: auto; }
 }
 
