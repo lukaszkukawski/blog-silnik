@@ -1,6 +1,6 @@
 {
   "name": "blog-silnik",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Wspólny silnik statycznych blogów na Astro: wpisy MDX z filmem, rozdziały, SEO, sitemap i RSS.",
   "type": "module",
   "license": "MIT",

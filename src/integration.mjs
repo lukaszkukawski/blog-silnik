@@ -45,6 +45,11 @@ export default function blogSilnik(input) {
 		name: 'blog-silnik',
 		hooks: {
 			'astro:config:setup': ({ config: astro, updateConfig, injectRoute, logger }) => {
+				// Adres endpointu obrazów w trybie dev powstaje przed scaleniem ustawień z integracji, więc bez tego ustawienia
+				// w astro.config.mjs obrazy z wpisów dają 404 w `npm run dev`. Wymuszamy je zamiast zgadywać.
+				if (astro.trailingSlash !== 'always') {
+					throw new Error("blog-silnik: dodaj do astro.config.mjs `trailingSlash: 'always'` (oraz `build: { format: 'directory' }`). Bez tego obrazy we wpisach nie wczytują się w trybie dev.");
+				}
 				const root = fileURLToPath(astro.root);
 				const rel = (path) => resolve(root, path);
 				const slots = Object.fromEntries(Object.entries(config.slots).filter(([, path]) => path).map(([key, path]) => [key, rel(path)]));

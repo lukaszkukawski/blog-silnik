@@ -53,7 +53,12 @@ import { defineConfig } from 'astro/config';
 import blogSilnik from 'blog-silnik';
 import config from './site.config.mjs';
 
-export default defineConfig({ integrations: [blogSilnik(config)] });
+export default defineConfig({
+	output: 'static',
+	trailingSlash: 'always',   // wymagane: bez tego obrazy nie działają w npm run dev
+	build: { format: 'directory' },
+	integrations: [blogSilnik(config)],
+});
 ```
 
 `src/content.config.ts`:

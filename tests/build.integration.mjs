@@ -157,3 +157,10 @@ test('surowy znacznik medium w MDX przerywa build, komponent z wielkiej litery p
 	w.write('komponent', post('', '## Sekcja\n\nTekst.\n'));
 	assert.equal(w.build().status, 0);
 });
+
+test('brak trailingSlash: \'always\' w astro.config.mjs przerywa build z wyjaśnieniem', (t) => {
+	const w = workspace(t);
+	const path = join(w.root, 'astro.config.mjs');
+	writeFileSync(path, readFileSync(path, 'utf8').replace("trailingSlash: 'always', ", ''));
+	fails(w.build(), /dodaj do astro\.config\.mjs `trailingSlash: 'always'`/);
+});
